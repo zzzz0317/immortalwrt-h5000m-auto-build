@@ -1,0 +1,39 @@
+#!/bin/sh
+is_first_boot=`uci -q get zz_config.@status[0].first_boot`
+if test $is_first_boot -gt 0; then
+echo -e "zzhiveton\nzzhiveton" | (passwd root)
+uci set system.@system[0].hostname='zzH5000M'
+uci commit system
+# uci del dhcp.lan.ra_slaac
+# uci set network.lan.ipaddr='10.0.0.1'
+uci add_list network.lan.ip6class='USBv6'
+uci add_list network.lan.ip6class='wan6'
+# uci set luci.main.lang='zh_cn'
+# uci set luci.main.mediaurlbase='/luci-static/argon'
+# uci set cpufreq.global.set='1'
+# uci set cpufreq.cpufreq.minfreq0='600000'
+# uci set cpufreq.cpufreq.maxfreq0='1608000'
+# uci set luci-fan.@luci-fan[0]=luci-fan
+# uci set luci-fan.@luci-fan[0].enabled='1'
+# uci set luci-fan.@luci-fan[0].off_temp='10'
+# uci set luci-fan.@luci-fan[0].on_temp='25'
+# uci set qmodem.main.at_tool='1'
+# uci set qmodem.main.start_delay='15'
+# uci set qmodem.main.enable_pcie_scan='0'
+# uci set qmodem.main.enable_usb_scan='1'
+uci commit
+# /etc/init.d/network reload
+uci set wireless.radio0.cell_density='0'
+uci set wireless.default_radio0.ssid='zzH5000M_24'
+uci set wireless.default_radio0.encryption='sae'
+uci set wireless.default_radio0.ocv='0'
+uci set wireless.default_radio0.key='zzhiveton'
+uci set wireless.radio1.cell_density='0'
+uci set wireless.default_radio1.ssid='zzH5000M'
+uci set wireless.default_radio1.encryption='sae'
+uci set wireless.default_radio1.ocv='0'
+uci set wireless.default_radio1.key='zzhiveton'
+uci commit wireless
+
+/etc/init.d/network reload
+wifi
