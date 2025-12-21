@@ -33,5 +33,4 @@ echo "ZZ_BUILD_DATE='${zz_build_date}'" >> files/etc/zz_build_id
 echo "ZZ_BUILD_REPO_HASH='$(cd .. && git rev-parse HEAD)'" >> files/etc/zz_build_id
 echo "ZZ_BUILD_IMM_HASH='$(git rev-parse HEAD)'" >> files/etc/zz_build_id
 echo "make immortalwrt"
-exit 1
 make V=0 -j$(nproc) || { echo "make failed"; exit 1; }
